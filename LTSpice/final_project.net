@@ -1,0 +1,25 @@
+* D:\VUB\MA1\Analog Electronics\final project\LTSpice\final_project.asc
+vdd N001 0 1.1
+vcm N006 0 0.6
+E1 vinn N006 N006 vinp 1
+V1 vinp N006 SINE(0 100u 1k) AC 10m
+Mp8 N002 N002 N001 N001 p_11_sprvt l=500n w=5u
+Mp7 N003 N002 N001 N001 p_11_sprvt l=58.9n w=5u
+Mp1 N005 vinn N003 N003 p_11_sprvt l=1000n w=10u
+Mp2 vinter vinp N003 N003 p_11_sprvt l=1000n w=10u
+Mn4 vinter N005 0 0 n_11_sprvt l=500n w=5u
+Mn3 N005 N005 0 0 n_11_sprvt l=500n w=5u
+Mn6 vout vinter 0 0 n_11_sprvt l=60n w=600n
+Mp5 vout N002 N001 N001 p_11_sprvt l=500n w=5u
+Rm vout N004 1000
+Cm N004 vinter 1.25p
+Ibias N002 0 1.414e-07
+Cload vout 0 5p
+.model NMOS NMOS
+.model PMOS PMOS
+.lib C:\Users\warre\Documents\LTspiceXVII\lib\cmp\standard.mos
+.include BSIM4_UMC65.lib
+.op
+.ac dec 20 1k 100G
+.backanno
+.end
