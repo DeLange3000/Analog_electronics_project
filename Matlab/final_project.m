@@ -6,7 +6,7 @@ clear;
 
 addpath(genpath('circuitDesign'));
 addpath(genpath('functions'));
-addpath(genpath('models'));
+addpath(genpath('modelg'));
 
 load('UMC65_RVT.mat');
 
@@ -21,10 +21,10 @@ choice.minFingerWidth = 200e-9;
 
 simulator			= 'spectre';
 simulFile			= 0;
-simulSkelFile		= 0;
+simulgkelFile		= 0;
 spec				= [];
 analog			= cirInit('analog',circuitTitle,'top',elementList,spec,choice,...
-						designkitName,NRVT,PRVT,simulator,simulFile,simulSkelFile);
+						designkitName,NRVT,PRVT,simulator,simulFile,simulgkelFile);
 analog			= cirCheckInChoice(analog, choice);
 
 
@@ -49,112 +49,114 @@ disp('  GND        GND   GND                 GND   GND       ');
 %% AI: Implement your OpAmp according to your handcalculations
 
 %Mp1 and Mp2
-Mp1.gm = 1.335176877775662e-07;
-%Mp1.gds = 1.335176877775662e-07;
-Mp1.ls = 5.000000000000001e-07;
-Mp1.w = 10*Mp1.ls;
-Mp1.ov = -0.2;
-Mp1.vgs = -0.034000000000000;
-Mp1.vds = -0.336;
+Mp1.ids = 9.746010^-6
+Mp1.lg = 1000*10^-9
 Mp1.vsb = 0;
+Mp1.vds = -0.336
+Mp1.vov = -0.1
+Mp1.vth = tableValueWref('vth', PRVT, Mp1.lg, 0, Mp1.vds, Mp1.vsb);
+Mp1.vgs = Mp1.vov + Mp1.vth
+Mp1.w = mosWidth('ids', Mp1.ids, Mp1);
 Mp1 = mosNfingers(Mp1);
 Mp1 = mosOpValues(Mp1);
 
-Mp2.gm = 1.335176877775662e-07;
-%Mp2.gds = 1.335176877775662e-07;
-Mp2.ls = 5.000000000000001e-07;
-Mp2.w = 10*Mp2.ls;
-Mp2.ov = -0.2;
-Mp2.vgs = -0.034000000000000;
-Mp2.vds = -0.336;
-Mp2.vsb = 0;
+Mp1 = mosNfingers(Mp1);
+Mp1 = mosOpValues(Mp1);
+
+Mp2.gm = Mp1.gm;
+Mp2.gds = Mp1.gds
+Mp2.lg = Mp1.lg
+Mp2.w = Mp1.w
+Mp2.vgs = Mp1.vgs
+Mp2.vds = Mp1.vds
+Mp2.vsb = Mp1.vsb
+Mp2.ids = Mp1.ids
 Mp2 = mosNfingers(Mp2);
 Mp2 = mosOpValues(Mp2);
 
 %Mn3 and Mn4
-Mn4.gm = 2.774798067659500e-07;
-%Mn4.gds = 5.983811117921269e-09;
-Mn4.ls = 5.000000000000001e-07;
-Mn4.w = 10*Mn4.ls;
-Mn4.vgs = 0.050000000000000;
+Mn4.ids = Mp1.ids
+Mn4.lg = 500*10^-9
 Mn4.vsb = 0;
-Mn4.vds = 0.336;
-Mn4.ov = 0;
+Mn4.vds = 0.336
+Mn4.vov = -0.1
+Mn4.vth = tableValueWref('vth', NRVT, Mn4.lg, 0, Mn4.vds, Mn4.vsb);
+Mn4.vgs = Mn4.vov + Mn4.vth
+Mn4.w = mosWidth('ids', Mn4.ids, Mn4);
 Mn4 = mosNfingers(Mn4);
-Mn4 = mosOpValues(Mn4);
+Mn4 = mosOpValues(Mn4)
 
-Mn3.gm = 2.774798067659500e-07;
-%Mn3.gds = 5.983811117921269e-09;
-Mn3.ls = 5.000000000000001e-07;
-Mn3.w = 10*Mn3.ls;
-Mn3.vgs = 0.050000000000000;
-Mn3.vsb = 0;
-Mn3.vds = 0.336;
-Mn3.ov = 0;
+Mn3.gm = Mn4.gm
+Mn3.gds = Mn4.gds
+Mn3.ids = Mn4.ids
+Mn3.lg = Mn4.lg
+Mn3.w = Mn4.w
+Mn3.vgs = Mn4.vgs
+Mn3.vsb = Mn4.vsb
+Mn3.vds = Mn4.vds
 Mn3 = mosNfingers(Mn3);
 Mn3 = mosOpValues(Mn3);
 
 
 %Mn6
 
-Mn6.gm = 1.602212253330795e-06;
+%Mn6.gm = 0.001602212253331
 %Mn6.gds = 2.004203332554601e-07;
-Mn6.ls = 7.000000000000000e-08;
-Mn6.w = 10*Mn6.ls;
-Mn6.vgs = 0.4;
+Mn6.ids = 3.5165*10^-4
+Mn6.lg = 1000*10^-9
 Mn6.vsb = 0;
-Mn6.vds = 0.550000000000000;
-Mn6.ov = 0.2;
+Mn6.vds = 0.550
+Mn6.vov = 0.48
+Mn6.vth = tableValueWref('vth', NRVT, Mn6.lg, 0, Mn6.vds, Mn6.vsb);
+Mn6.vgs = Mn6.vov + Mn6.vth
+Mn6.w = mosWidth('ids', Mn6.ids, Mn6);
 Mn6 = mosNfingers(Mn6);
 Mn6 = mosOpValues(Mn6);
 
 
+%Mp5
 
-
-%Mp8 and Mp5
-Mp8.ls = 6.000000000000001e-08
-Mp8.w = 10*Mp8.ls;
-Mp8.ids = 1.414145096894760e-07
-Mp8.vov = 0
-Mp8.vds = -0.5500
-Mp8.vgs = -0.24
-Mp8.vsb = 0
-Mp8 = mosNfingers(Mp8);
-Mp8 = mosOpValues(Mp8);
-
-Mp5.ls = 6.000000000000001e-08
-Mp5.w = 10*Mp5.ls;
-Mp5.ids = 1.414145096894760e-07
-Mp5.vov = 0
-Mp5.vds = -0.5500
-Mp5.vgs = -0.24
-Mp5.vsb = 0
+Mp5.ids = Mn6.ids
+Mp5.lg = 1000*10^-9
+Mp5.vsb = 0;
+Mp5.vds = -0.550
+Mp5.vov = -0.48
+Mp5.vth = tableValueWref('vth', PRVT, Mp5.lg, 0, Mp5.vds, Mp5.vsb);
+Mp5.vgs = Mp5.vov + Mp5.vth
+Mp5.w = mosWidth('ids', Mp5.ids, Mp5);
 Mp5 = mosNfingers(Mp5);
 Mp5 = mosOpValues(Mp5);
 
+%Mp8
+Mp8.lg = Mp5.lg
+Mp8.w = Mp5.w
+Mp8.ids = Mp5.ids
+Mp8.vov = Mp5.vov
+Mp8.vds = Mp5.vds
+Mp8.vgs = Mp5.vgs
+Mp8.vsb = Mp5.vsb
+Mp8 = mosNfingers(Mp8);
+Mp8 = mosOpValues(Mp8);
+
 %Mp7
 
-Mp7.ls =  5.890166726979056e-06
-Mp7.w = 10*Mp7.ls;
-Mp7.ids = 1.200428750528804e-08
-Mp7.vov = 0
-Mp7.vds = -0.336000000000000
-Mp7.vgs = -0.24
-Mp7.vsb = 0
+Mp7.ids = Mp1.ids + Mp2.ids
+Mp7.lg = 1000*10^-9
+Mp7.vsb = 0;
+Mp7.vds = -0.550
+Mp7.vov = - 0.2
+Mp7.vth = tableValueWref('vth', PRVT, Mp7.lg, 0, Mp7.vds, Mp7.vsb);
+Mp7.vgs = Mp7.vov + Mp7.vth
+Mp7.w = mosWidth('ids', Mp7.ids, Mp7);
 Mp7 = mosNfingers(Mp7);
 Mp7 = mosOpValues(Mp7);
-
-
-
-
-
 
 %% AI: Set-up Rm, Cc and CL and calculate the zero required for the transfer-fct
 
 spec.Cm = 1.25*10^-12;
 spec.Cl = 5*10^-12;
-spec.Rm = 0.0001; 
-z1 = spec.Rm/spec.Cm;
+spec.Rm = 0.001; 
+z1 = 1/(spec.Cm*(1/Mn6.gm - spec.Rm));
 
 %% AI: Fill out the empty variables required to plot the transfer-function.
 %  meaning of each variable see comment and
@@ -167,12 +169,9 @@ G1    = Mn3.gm + Mp1.gds;  % Admittance  on node 1
 C2    = spec.Cm;  % Capacitance on node 2
 G2    = Mn4.gds + Mp2.gds;  % Admittance  on node 2
 C3    = spec.Cl;  % Capacitance on node 3
-G3    = Mn6.gds ;  % Admittance  on node 3
+G3    = Mn6.gm ;  % Admittance  on node 3
 C4    = spec.Cm;  % Capacitance on node 4
 G4    = 1/spec.Rm;  % Admittance on node 4 (hint: what happens with CL at very high frequencies?)
-
-
-
 
 %% AI: Fill out the empty variables required for the performance summary
 Vin_cm_min  = 0;   
@@ -221,7 +220,7 @@ analog = cirElementsCheckOut(analog); % Update circuit file with
 % transistor sizes
 mosPrintSizesAndOpInfo(1,analog); % Print the sizes of the 
 % transistors in the circuit file
-fprintf('IBIAS\t= %6.2fmA\nRm\t= %6.2f Ohm\nCm\t= %6.2fpF\n\n',Mp8.ids/1e-3,spec.Rm,spec.Cm/1e-12);
+fprintf('IBIAS\t= %6.2fmA\nRm\t= %6.2f Ohm\nCm\t= %6.2fpF\n\n',Mp8.ids,spec.Rm,spec.Cm/1e-12);
 
 %% Performance summary (do not modify)
 
