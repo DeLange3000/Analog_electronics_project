@@ -46,14 +46,20 @@ disp('   |          |     |      +-----------Mn6    |        ');
 disp('   |          |     |                   |     |        ');
 disp('  GND        GND   GND                 GND   GND       ');
 
+%% project specs
+
+Cl = 5*10^-12
+GBWf = 17000000
+GBW = 17000000*2*pi
+gain = 223.87
 %% AI: Implement your OpAmp according to your handcalculations
 
 %Mp1 and Mp2
-Mp1.ids = 9.746010^-6
+Mp1.ids = 4.5455e-7
 Mp1.lg = 1000*10^-9
 Mp1.vsb = 0;
-Mp1.vds = -0.336
-Mp1.vov = -0.1
+Mp1.vds = -0.2
+Mp1.vov = -0.05
 Mp1.vth = tableValueWref('vth', PRVT, Mp1.lg, 0, Mp1.vds, Mp1.vsb);
 Mp1.vgs = Mp1.vov + Mp1.vth
 Mp1.w = mosWidth('ids', Mp1.ids, Mp1);
@@ -76,12 +82,10 @@ Mp2 = mosOpValues(Mp2);
 
 %Mn3 and Mn4
 Mn4.ids = Mp1.ids
-Mn4.lg = 500*10^-9
+Mn4.lg = 1000*10^-9
 Mn4.vsb = 0;
-Mn4.vds = 0.336
-Mn4.vov = -0.1
-Mn4.vth = tableValueWref('vth', NRVT, Mn4.lg, 0, Mn4.vds, Mn4.vsb);
-Mn4.vgs = Mn4.vov + Mn4.vth
+Mn4.vds = 0.550
+Mn4.vgs = Mn4.vds
 Mn4.w = mosWidth('ids', Mn4.ids, Mn4);
 Mn4 = mosNfingers(Mn4);
 Mn4 = mosOpValues(Mn4)
@@ -102,13 +106,11 @@ Mn3 = mosOpValues(Mn3);
 
 %Mn6.gm = 0.001602212253331
 %Mn6.gds = 2.004203332554601e-07;
-Mn6.ids = 3.5165*10^-4
+Mn6.ids = 0.0049
 Mn6.lg = 1000*10^-9
 Mn6.vsb = 0;
 Mn6.vds = 0.550
-Mn6.vov = 0.48
-Mn6.vth = tableValueWref('vth', NRVT, Mn6.lg, 0, Mn6.vds, Mn6.vsb);
-Mn6.vgs = Mn6.vov + Mn6.vth
+Mn6.vgs = Mn3.vds
 Mn6.w = mosWidth('ids', Mn6.ids, Mn6);
 Mn6 = mosNfingers(Mn6);
 Mn6 = mosOpValues(Mn6);
@@ -120,9 +122,7 @@ Mp5.ids = Mn6.ids
 Mp5.lg = 1000*10^-9
 Mp5.vsb = 0;
 Mp5.vds = -0.550
-Mp5.vov = -0.48
-Mp5.vth = tableValueWref('vth', PRVT, Mp5.lg, 0, Mp5.vds, Mp5.vsb);
-Mp5.vgs = Mp5.vov + Mp5.vth
+Mp5.vgs = Mp5.vds
 Mp5.w = mosWidth('ids', Mp5.ids, Mp5);
 Mp5 = mosNfingers(Mp5);
 Mp5 = mosOpValues(Mp5);
@@ -143,19 +143,17 @@ Mp8 = mosOpValues(Mp8);
 Mp7.ids = Mp1.ids + Mp2.ids
 Mp7.lg = 1000*10^-9
 Mp7.vsb = 0;
-Mp7.vds = -0.550
-Mp7.vov = - 0.2
-Mp7.vth = tableValueWref('vth', PRVT, Mp7.lg, 0, Mp7.vds, Mp7.vsb);
-Mp7.vgs = Mp7.vov + Mp7.vth
+Mp7.vds = -0.350
+Mp7.vgs = Mp8.vds
 Mp7.w = mosWidth('ids', Mp7.ids, Mp7);
 Mp7 = mosNfingers(Mp7);
 Mp7 = mosOpValues(Mp7);
 
 %% AI: Set-up Rm, Cc and CL and calculate the zero required for the transfer-fct
 
-spec.Cm = 1.25*10^-12;
+spec.Cm = Mp1.gm/GBW;
 spec.Cl = 5*10^-12;
-spec.Rm = 0.001; 
+spec.Rm = 0.0001; 
 z1 = 1/(spec.Cm*(1/Mn6.gm - spec.Rm));
 
 %% AI: Fill out the empty variables required to plot the transfer-function.

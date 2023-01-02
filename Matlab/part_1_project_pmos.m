@@ -49,8 +49,9 @@ Av_db = NaN(length(L),length(VGS));
 VOV   = NaN(length(L),length(VGS));
 w     = NaN(length(L),length(VGS));
 ft    = nan(length(L), length(VGS));
+IDS   =  NaN(length(L),length(VGS));
 
-Mp2.vds = -0.336;
+Mp2.vds = -0.2;
 Mp2.vsb = 0;
 
 for kk = 1:length(L)
@@ -68,6 +69,7 @@ for kk = 1:length(L)
         Av(kk,i) = Mp2.gm / Mp2.gds;
         Av_db(kk,i) = 20*log10(Mp2.gm / Mp2.gds);
         ft(kk, i) = Mp2.ft/1e9;
+        IDS(kk,i) = Mp2.ids;
                      
     end
 end
@@ -132,3 +134,10 @@ title('ft vs. VOV for different channel lenght (W/L=10, VDS = 0.55V)');
 legend('60n','80n','100n','200n','500n','1000n');
 xlabel('VOV (V)')
 ylabel('ft (GHz)')
+
+figure;
+plot(VGS,IDS,'linewidth',2);
+title('IDS');
+legend('60n','80n','100n','200n','500n','1000n');
+xlabel('VGS (V)')
+ylabel('IDS')
