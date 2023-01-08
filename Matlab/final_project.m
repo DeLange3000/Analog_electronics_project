@@ -48,20 +48,21 @@ disp('  GND        GND   GND                 GND   GND       ');
 
 %% project specs
 
+VDD = 1.1
 Cl = 5*10^-12
-GBWf = 17000000
-GBW = 17000000*2*pi
+GBWf = 17e6
+GBW = GBWf*2*pi
 gain = 223.87
+
 %% AI: Implement your OpAmp according to your handcalculations
 
 %Mp1 and Mp2
-Mp1.ids = 4.5455e-7
+Mp1.ids = 1.0906e-6
 Mp1.lg = 1000*10^-9
 Mp1.vsb = 0;
-Mp1.vds = -0.2
-Mp1.vov = -0.05
+Mp1.vds = -0.3
+Mp1.vgs = -0.2
 Mp1.vth = tableValueWref('vth', PRVT, Mp1.lg, 0, Mp1.vds, Mp1.vsb);
-Mp1.vgs = Mp1.vov + Mp1.vth
 Mp1.w = mosWidth('ids', Mp1.ids, Mp1);
 Mp1 = mosNfingers(Mp1);
 Mp1 = mosOpValues(Mp1);
@@ -82,9 +83,9 @@ Mp2 = mosOpValues(Mp2);
 
 %Mn3 and Mn4
 Mn4.ids = Mp1.ids
-Mn4.lg = 1000*10^-9
+Mn4.lg = 1e-6
 Mn4.vsb = 0;
-Mn4.vds = 0.550
+Mn4.vds = 0.4
 Mn4.vgs = Mn4.vds
 Mn4.w = mosWidth('ids', Mn4.ids, Mn4);
 Mn4 = mosNfingers(Mn4);
@@ -106,11 +107,11 @@ Mn3 = mosOpValues(Mn3);
 
 %Mn6.gm = 0.001602212253331
 %Mn6.gds = 2.004203332554601e-07;
-Mn6.ids = 0.0049
-Mn6.lg = 1000*10^-9
+Mn6.ids = 1.2471e-4
+Mn6.lg = 1e-6
 Mn6.vsb = 0;
 Mn6.vds = 0.550
-Mn6.vgs = Mn3.vds
+Mn6.vgs = 0.4
 Mn6.w = mosWidth('ids', Mn6.ids, Mn6);
 Mn6 = mosNfingers(Mn6);
 Mn6 = mosOpValues(Mn6);
@@ -122,28 +123,29 @@ Mp5.ids = Mn6.ids
 Mp5.lg = 1000*10^-9
 Mp5.vsb = 0;
 Mp5.vds = -0.550
-Mp5.vgs = Mp5.vds
+Mp5.vgs = -0.350
 Mp5.w = mosWidth('ids', Mp5.ids, Mp5);
 Mp5 = mosNfingers(Mp5);
 Mp5 = mosOpValues(Mp5);
 
 %Mp8
-Mp8.lg = Mp5.lg
-Mp8.w = Mp5.w
-Mp8.ids = Mp5.ids
-Mp8.vov = Mp5.vov
-Mp8.vds = Mp5.vds
-Mp8.vgs = Mp5.vgs
-Mp8.vsb = Mp5.vsb
+Mp8.lg = 1e-6
+Mp8.ids = Mn6.ids
+Mp8.vgs = -0.350
+Mp8.vds = Mp8.vgs
+Mp8.vgd = 0
+Mp8.vsb = 0
+Mp8.w =  mosWidth('ids', Mp8.ids, Mp8);
 Mp8 = mosNfingers(Mp8);
 Mp8 = mosOpValues(Mp8);
 
+Ibias = Mp8.ids
 %Mp7
 
 Mp7.ids = Mp1.ids + Mp2.ids
 Mp7.lg = 1000*10^-9
 Mp7.vsb = 0;
-Mp7.vds = -0.350
+Mp7.vds = -0.4
 Mp7.vgs = Mp8.vds
 Mp7.w = mosWidth('ids', Mp7.ids, Mp7);
 Mp7 = mosNfingers(Mp7);
@@ -151,10 +153,10 @@ Mp7 = mosOpValues(Mp7);
 
 %% AI: Set-up Rm, Cc and CL and calculate the zero required for the transfer-fct
 
-spec.Cm = Mp1.gm/GBW;
+spec.Cm = 1/2*Mp1.gm/GBW;
 spec.Cl = 5*10^-12;
-spec.Rm = 0.0001; 
-z1 = 1/(spec.Cm*(1/Mn6.gm - spec.Rm));
+spec.Rm = 1000; 
+z1 = (Mp5.gm + 1/spec.Rm)/spec.Cm
 
 %% AI: Fill out the empty variables required to plot the transfer-function.
 %  meaning of each variable see comment and
@@ -171,12 +173,20 @@ G3    = Mn6.gm ;  % Admittance  on node 3
 C4    = spec.Cm;  % Capacitance on node 4
 G4    = 1/spec.Rm;  % Admittance on node 4 (hint: what happens with CL at very high frequencies?)
 
+G1/C1
+G2/C2
+G3/C3
+G4/C4
+
+
+
 %% AI: Fill out the empty variables required for the performance summary
-Vin_cm_min  = 0;   
-Vin_cm_max  = 1.1; 
-Vout_cm_min = 0;                         
-Vout_cm_max = 1.1;             
-Pdiss       = 5;
+Vin_cm_min  = Mp2.vth + Mn4.vth + Mn4.vov
+Vin_cm_max  = Mp7.vov + Mp2.vov + VDD; 
+Vout_cm_min = Mn6.vdsat;                         
+Vout_cm_max = VDD - abs(Mp5.vdsat);  
+Vswing = Vout_cm_max - Vout_cm_min
+Pdiss       = VDD*(Mp8.ids + Mp7.ids + Mp5.ids);
 
 %% Sanity check (do not modify)
 
@@ -249,6 +259,8 @@ bode(TF1,2*pi*freq); grid on;
 h = gcr;
 setoptions(h,'FreqUnits','Hz');
 title('Frequency response Opamp');
+figure
+margin(TF1)
 hold all
 
 
