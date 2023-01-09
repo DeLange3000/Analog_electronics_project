@@ -52,7 +52,7 @@ w     = NaN(length(L),length(VGS));
 ft    = nan(length(L), length(VGS));
 IDS   =  NaN(length(L),length(VGS));
 
-Mn2.vds = 0.36;
+Mn2.vds = 0.550;
 Mn2.vsb = 0;
 
 for kk = 1:length(L)
