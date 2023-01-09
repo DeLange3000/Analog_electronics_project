@@ -78,12 +78,12 @@ end
 
 %%
 
-Mn4.vgs = 0.36;
+Mn4.vgs = 0.2735;
 Mn4.vds = 0.55;
 Mn4.vsb = 0;
 
-aspect = 80;
-Mn4.lg = 90e-9;
+aspect = 3.6;
+Mn4.lg = 1e-6;
 Mn4.w = Mn4.lg*aspect;
 
 Mn4 = mosNfingers(Mn4);
@@ -95,8 +95,8 @@ disp("ids = ")
 disp(Mn4.ids)
 disp("gds = ")
 disp(Mn4.gds)
-disp("gm * 10e3 = ")
-disp(Mn4.gm*1000)
+disp("gm = ")
+disp(Mn4.gm)
 disp("Vov = ")
 disp(Mn4.vov)
 

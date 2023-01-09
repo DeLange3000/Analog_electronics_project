@@ -13,25 +13,30 @@ GBW = 17000000*2*pi
 gain = 223.87
 
 %choose M1 and M2 based on DC gain stage 1
-gain_stage_one = 19.2 %get from Vov and gm/gds
+%gain_stage_one = 19.2 %get from Vov and gm/gds
+gain_stage_one = 33.375
 L1 = 1000*10^-9 %choose based on gain
-Vov1 = -0.2
+Vov1 = 0
+
 
 %choose M6 based on total DC gain divided by gain stage 1
 %gain_stage_two = gain/gain_stage_one
-gain_stage_two = 13.6 %get from Vov and gm/gds
-L6 = 100*10^-9
-Vov6 = 0.2
+%gain_stage_two = 13.6 %get from Vov and gm/gds
+gain_stage_two = gain/gain_stage_one % 6.7077
+L6 = 60*10^-9
+vgs6 = 0.4
+Vov6 = 0
 
 % get gain efficiency of M1 and M6
-gain_eff1 = 8.45 %get from VOv and gm/IDS
-gain_eff6 = 6.95 %get from Vov and gm/IDS
+gain_eff1 = 22.5 %get from VOv and gm/IDS
+gain_eff6 = 11 %get from Vov and gm/IDS
 
 %choose length M8 based on current behaviour
 Vov8 = 0.2
 Vov7 = 0
 Vov5 = 0.2
-L5 = 60*10^-9
+%L5 = 60*10^-9
+L5 = 1e-6
 
 %choose length M3 and M4 based on 
 L3 = 60*10^-9 %choose
@@ -47,7 +52,7 @@ gain_eff3 = 23.1 %get from plot Vov and gm/IDS
 vgs1 = -0.42 %get from Vgs and gm/gds
 vgs4 = 0.21
 vgs5 = -0.17
-vgs6 = 0.56
+%vgs6 = 0.56
 
 
 %% apply symmetries
@@ -112,15 +117,18 @@ Id5 = Id6
 
 %% choose Ibias and Id8
 
-Id8 = Id6
-Ibias = Id8
+Ibias = Id5/10
 
 %% choose L7 and L5
 
-L7 = L8/(Id7/Id8)
-W7 = 10*L8
+%L7 = L8/(Id7/Id8)
+%W7 = 10*L8
 
+W8 = 1e-6
 
+L7 = L5
+W5 = W8 * Id5/Ibias % since Id5 = Id8 (= Ibias)
+W7 = W8 * Id7/Ibias
 
 %% choose gm3 and gm4
 
@@ -138,7 +146,7 @@ Vcm_max = Vov2 - vgs2 + Vov4 - vgs4 + Vov4 +Vdd
 Vcm_min = Vov7 + Vov2 + Vov2 - vgs2
 
 Vout_max = Vdd - Vov5
-Vout_min = 2*vgs6 - Vov6
+Vout_min = Vov6
 
-Pdiss = Vdd*Ibias
+Pdiss = Vdd*(Ibias+Id5+Id7)
 

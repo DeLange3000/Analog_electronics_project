@@ -150,7 +150,7 @@ Mp7 = mosOpValues(Mp7);
 
 spec.Cm = Mp1.gm/GBW
 spec.Cl = 5*10^-12;
-spec.Rm = 15e3; 
+spec.Rm = 1e4; 
 z1 = 1/(spec.Cm*(1/Mn6.gm - spec.Rm))
 
 %% AI: Fill out the empty variables required to plot the transfer-function.
@@ -170,7 +170,7 @@ G4    = 1/spec.Rm;  % Admittance on node 4 (hint: what happens with CL at very h
 
 %% AI: Fill out the empty variables required for the performance summary
 Vin_cm_min  = 0.404;   
-Vin_cm_max  = 0.633; 
+Vin_cm_max  = 0.633;    
 Vout_cm_min = 0.07;                         
 Vout_cm_max = 0.89;             
 Pdiss       = 143e-6;
