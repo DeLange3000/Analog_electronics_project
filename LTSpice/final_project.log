@@ -24,41 +24,41 @@ Semiconductor Device Operating Points:
                         --- BSIM4 MOSFETS ---
 Name:      mn6         mn3         mn4         mp5         mp2
 Model: n_11_sprvt  n_11_sprvt  n_11_sprvt  p_11_sprvt  p_11_sprvt
-Id:      6.53e-05    1.11e-06    1.10e-06   -6.53e-05   -1.11e-06
-Vgs:     3.26e-01    3.43e-01    3.43e-01   -5.42e-01   -1.88e-01
-Vds:     5.52e-01    3.43e-01    3.26e-01   -5.48e-01   -4.61e-01
+Id:      8.28e-07    5.09e-07    5.09e-07   -8.28e-07   -5.09e-07
+Vgs:     2.74e-01    2.73e-01    2.73e-01   -5.40e-01   -2.54e-01
+Vds:     1.10e+00    2.73e-01    2.74e-01   -6.98e-05   -5.80e-01
 Vbs:     0.00e+00    0.00e+00    0.00e+00    0.00e+00    0.00e+00
-Vth:     7.86e-02    5.90e-02    5.87e-02   -2.08e-01   -2.07e-01
-Vdsat:   1.37e-01    1.98e-01    1.98e-01   -2.81e-01   -5.03e-02
-Gm:      7.54e-04    1.02e-05    1.02e-05    3.42e-04    2.65e-05
-Gds:     2.13e-05    4.43e-07    4.62e-07    1.45e-05    4.35e-07
-Gmb      4.65e-05    3.75e-07    3.70e-07    3.19e-05    2.50e-06
-Cbd:     3.70e-15    4.61e-17    4.64e-17    2.98e-15    3.55e-15
-Cbs:     4.61e-15    5.22e-17    5.22e-17    4.51e-15    5.14e-15
+Vth:     7.76e-02    5.62e-02    5.62e-02   -2.03e-01   -2.09e-01
+Vdsat:   1.16e-01    1.33e-01    1.33e-01   -2.88e-01   -7.39e-02
+Gm:      1.08e-05    6.56e-06    6.56e-06    5.94e-06    9.09e-06
+Gds:     1.72e-07    2.93e-07    2.92e-07    2.90e-02    1.37e-07
+Gmb      6.58e-07    2.87e-07    2.87e-07    7.32e-07    9.72e-07
+Cbd:     5.71e-17    1.74e-17    1.74e-17    3.37e-13    3.83e-16
+Cbs:     7.96e-17    1.86e-17    1.86e-17    3.37e-13    5.85e-16
 
 Name:      mp1         mp7         mp8
 Model: p_11_sprvt  p_11_sprvt  p_11_sprvt
-Id:     -1.11e-06   -2.22e-06   -1.25e-04
-Vgs:    -1.88e-01   -5.42e-01   -5.42e-01
-Vds:    -4.45e-01   -3.12e-01   -5.42e-01
+Id:     -5.09e-07   -1.02e-06   -4.90e-03
+Vgs:    -2.54e-01   -5.40e-01   -5.40e-01
+Vds:    -5.81e-01   -2.46e-01   -5.40e-01
 Vbs:     0.00e+00    0.00e+00    0.00e+00
-Vth:    -2.07e-01   -2.05e-01   -2.08e-01
-Vdsat:  -5.03e-02   -2.79e-01   -2.83e-01
-Gm:      2.63e-05    1.11e-05    6.51e-04
-Gds:     4.43e-07    1.85e-06    2.83e-05
-Gmb      2.48e-06    1.22e-06    5.89e-05
-Cbd:     3.59e-15    1.29e-16    5.68e-15
-Cbs:     5.14e-15    1.68e-16    8.58e-15
+Vth:    -2.09e-01   -2.02e-01   -2.08e-01
+Vdsat:  -7.39e-02   -2.88e-01   -2.84e-01
+Gm:      9.10e-06    4.74e-06    2.56e-02
+Gds:     1.37e-07    1.68e-06    1.12e-03
+Gmb      9.72e-07    4.85e-07    2.22e-03
+Cbd:     3.82e-16    6.43e-17    2.23e-13
+Cbs:     5.85e-16    7.84e-17    3.37e-13
 
 
 
-Date: Sun Jan 08 20:07:16 2023
-Total elapsed time: 0.209 seconds.
+Date: Mon Jan 02 21:35:25 2023
+Total elapsed time: 0.086 seconds.
 
 tnom = 27
 temp = 27
 method = trap
-totiter = 22
+totiter = 17
 traniter = 0
 tranpoints = 0
 accept = 0
@@ -66,5 +66,5 @@ rejected = 0
 matrix size = 30
 fillins = 14
 solver = Normal
-Matrix Compiler1:     158 opcodes
+Matrix Compiler1:     159 opcodes
 Matrix Compiler2: 3.02 KB object code size
