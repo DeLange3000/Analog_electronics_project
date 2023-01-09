@@ -106,7 +106,7 @@ Mn3 = mosOpValues(Mn3);
 
 %Mn6.gm = 0.001602212253331
 %Mn6.gds = 2.004203332554601e-07;
-Mn6.ids = 0.0049
+Mn6.ids = 10.7e-6
 Mn6.lg = 1000*10^-9
 Mn6.vsb = 0;
 Mn6.vds = 0.550
@@ -122,19 +122,18 @@ Mp5.ids = Mn6.ids
 Mp5.lg = 1000*10^-9
 Mp5.vsb = 0;
 Mp5.vds = -0.550
-Mp5.vgs = Mp5.vds
+Mp5.vgs = -0.54
 Mp5.w = mosWidth('ids', Mp5.ids, Mp5);
 Mp5 = mosNfingers(Mp5);
 Mp5 = mosOpValues(Mp5);
 
 %Mp8
 Mp8.lg = Mp5.lg
-Mp8.w = Mp5.w
-Mp8.ids = Mp5.ids
-Mp8.vov = Mp5.vov
-Mp8.vds = Mp5.vds
+Mp8.ids = 4.9e-3
+Mp8.vds = Mp5.vgs
 Mp8.vgs = Mp5.vgs
 Mp8.vsb = Mp5.vsb
+Mp8.w = mosWidth('ids', Mp8.ids, Mp8);
 Mp8 = mosNfingers(Mp8);
 Mp8 = mosOpValues(Mp8);
 
@@ -153,7 +152,7 @@ Mp7 = mosOpValues(Mp7);
 
 spec.Cm = Mp1.gm/GBW;
 spec.Cl = 5*10^-12;
-spec.Rm = 0.0001; 
+spec.Rm = 1e3; 
 z1 = 1/(spec.Cm*(1/Mn6.gm - spec.Rm));
 
 %% AI: Fill out the empty variables required to plot the transfer-function.
@@ -249,6 +248,7 @@ bode(TF1,2*pi*freq); grid on;
 h = gcr;
 setoptions(h,'FreqUnits','Hz');
 title('Frequency response Opamp');
-hold all
 
+figure
+margin(TF1)
 
