@@ -78,12 +78,12 @@ end
 
 %%
 
-Mn4.vgs = 0.2735;
+Mn4.vgs = 0.3537;
 Mn4.vds = 0.55;
 Mn4.vsb = 0;
 
-aspect = 3.6;
-Mn4.lg = 1e-6;
+aspect = 42;
+Mn4.lg = 80e-9;
 Mn4.w = Mn4.lg*aspect;
 
 Mn4 = mosNfingers(Mn4);

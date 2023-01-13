@@ -133,8 +133,8 @@ Mp5.ids = Mn6.ids
 Mp5.lg = 120*10^-9
 Mp5.vsb = 0;
 Mp5.vds = -0.550
-Mp5.vgs = -0.540
-Mp5.w = mosWidth('ids', Mp5.ids, Mp5);
+Mp5.vgs = -0.550
+Mp5.w = Mp8.w*Mp5.ids/Ibias
 Mp5 = mosNfingers(Mp5);
 Mp5 = mosOpValues(Mp5);
 
