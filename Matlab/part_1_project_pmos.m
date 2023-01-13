@@ -74,24 +74,6 @@ for kk = 1:length(L)
     end
 end
 
-%%
-Mp4.vds = -0.55;
-Mp4.vsb = 0;
-Mp4.vgs = -0.54;
-Mp4.w = 1.5e-6;
-Mp4.lg = 1e-6;
-
-Mp4 = mosNfingers(Mp4);
-Mp4 = mosOpValues(Mp4);
-
-disp("currently: ")
-
-disp("ids = ")
-disp(Mp4.ids)
-disp("gds = ")
-disp(Mp4.gds)
-disp("vov = ")
-disp(Mp4.vov)
 
 %% Plot
 
@@ -100,7 +82,7 @@ plot(VGS, VOV,'linewidth',2);
 xlabel('VGS (V)');
 ylabel('VOV (V)');
 grid on;
-title('VOV vs. VGS (W/L=10, VDS = 0.55 V)@')
+title('VOV vs. VGS (W/L=10, VDS = -0.55 V)@')
 legend('60n','80n','100n', '150n', '200n','500n','1000n');
 
 figure();
@@ -157,7 +139,7 @@ legend('60n','80n','100n','150n','200n','500n','1000n');
 
 figure;
 semilogy(VOV.',ft.','linewidth',2);
-title('ft vs. VOV for different channel lenght (W/L=10, VDS = 0.55V)');
+title('ft vs. VOV for different channel lenght (W/L=10, VDS = -0.55V)');
 legend('60n','80n','100n','150n','200n','500n','1000n');
 xlabel('VOV (V)')
 ylabel('ft (GHz)')

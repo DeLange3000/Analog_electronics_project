@@ -40,7 +40,7 @@ fprintf('\n--- First Exercise: Designing transistor from scratch ---\n');
 
 %% Intrinsic gain versus VGS for different L
 VGS = (0:0.005:spec.VDD).'; % [V], gate source voltage
-L   = [60 80 100 200 500 1000 2000]*1e-9; % [m], gate length
+L   = [60 80 100 200 500 1000]*1e-9; % [m], gate length
 gm  = NaN(length(L),length(VGS));
 gds = NaN(length(L),length(VGS));
 gmIDS = NaN(length(L),length(VGS));
@@ -78,27 +78,6 @@ end
 
 %%
 
-Mn4.vgs = 0.2735;
-Mn4.vds = 0.55;
-Mn4.vsb = 0;
-
-aspect = 3.6;
-Mn4.lg = 1e-6;
-Mn4.w = Mn4.lg*aspect;
-
-Mn4 = mosNfingers(Mn4);
-Mn4 = mosOpValues(Mn4);
-
-disp("currently: ")
-
-disp("ids = ")
-disp(Mn4.ids)
-disp("gds = ")
-disp(Mn4.gds)
-disp("gm = ")
-disp(Mn4.gm)
-disp("Vov = ")
-disp(Mn4.vov)
 
 
 %% Plot
