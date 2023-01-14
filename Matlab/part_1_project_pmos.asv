@@ -78,8 +78,8 @@ end
 Mp4.vds = -0.55;
 Mp4.vsb = 0;
 Mp4.vgs = -0.54;
-Mp4.w = 1.35e-6;
-Mp4.lg = 0.12e-6;
+Mp4.w = 1e-6;
+Mp4.lg = 0.1e-6;
 
 Mp4 = mosNfingers(Mp4);
 Mp4 = mosOpValues(Mp4);
