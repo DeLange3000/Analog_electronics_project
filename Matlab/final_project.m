@@ -49,8 +49,8 @@ disp('  GND        GND   GND                 GND   GND       ');
 %% project specs
 
 Cl = 5*10^-12
-GBWf = 17000000
-GBW = 17000000*2*pi
+GBWf = 17500000
+GBW = GBWf*2*pi
 gain = 223.87
 VDD = 1.1
 
@@ -153,8 +153,7 @@ Mp7 = mosOpValues(Mp7);
 AvDC1 = Mp1.gm/(Mp1.gds + Mn3.gds);  % DC gain 1st stage
 AvDC2 = Mn6.gm/(Mn6.gds + Mp5.gds);  % DC gain 2nd stage
 
-w_pdom = (2*pi*GBWf)/(AvDC1*AvDC2);
-spec.Cm = (Mp1.gds + Mn3.gds)/(w_pdom * (1+abs(AvDC2)));
+spec.Cm = (Mp1.gds + Mn3.gds)/(GBW/(AvDC1*AvDC2) * (1+abs(AvDC2)));
 spec.Cl = 5e-12;
 spec.Rm = (1+ spec.Cl/spec.Cm)/Mn6.gm;
 z1 = 1/ (spec.Cm*(1/Mn6.gm - spec.Rm));
