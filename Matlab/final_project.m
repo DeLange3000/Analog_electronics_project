@@ -150,9 +150,9 @@ Mp7 = mosOpValues(Mp7);
 
 %% AI: Set-up Rm, Cc and CL and calculate the zero required for the transfer-fct
 
-spec.Cm = (Mn4.gds + Mp2.gds)/GBW*11.75;
+spec.Cm = 2.5e-13 %(Mn4.gds + Mp2.gds)/GBW*11.75;
 spec.Cl = 5*10^-12;
-spec.Rm = 1/(Mn4.gds + Mp2.gds)/11.75; 
+spec.Rm = 35e3 %1/(Mn4.gds + Mp2.gds)/11.75; 
 z1 = (Mp5.gm + 1/spec.Rm)/spec.Cm;
 
 %% AI: Fill out the empty variables required to plot the transfer-function.
