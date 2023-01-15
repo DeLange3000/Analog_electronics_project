@@ -49,8 +49,8 @@ disp('  GND        GND   GND                 GND   GND       ');
 %% project specs
 
 Cl = 5*10^-12
-GBWf = 17000000
-GBW = 17000000*2*pi
+GBWf = 17500000
+GBW = GBWf*2*pi
 gain = 223.87
 VDD = 1.1
 
@@ -150,25 +150,28 @@ Mp7 = mosOpValues(Mp7);
 
 %% AI: Set-up Rm, Cc and CL and calculate the zero required for the transfer-fct
 
-spec.Cm = 2.5e-13 %(Mn4.gds + Mp2.gds)/GBW*11.75;
-spec.Cl = 5*10^-12;
-spec.Rm = 35e3 %1/(Mn4.gds + Mp2.gds)/11.75; 
-z1 = (Mp5.gm + 1/spec.Rm)/spec.Cm;
+
+AvDC1 = Mp1.gm/(Mp1.gds + Mn3.gds);  % DC gain 1st stage
+AvDC2 = Mn6.gm/(Mn6.gds + Mp5.gds);  % DC gain 2nd stage
+
+spec.Cm = (Mp1.gds + Mn3.gds)/(GBW/(AvDC1*AvDC2) * (1+abs(AvDC2)));
+spec.Cl = 5e-12;
+spec.Rm = (1+ spec.Cl/spec.Cm)/Mn6.gm;
+z1 = 1/ (spec.Cm*(1/Mn6.gm - spec.Rm));
 
 %% AI: Fill out the empty variables required to plot the transfer-function.
 %  meaning of each variable see comment and
 %  location of nodes see line 31 
 
-AvDC1 = Mp1.gm/(Mp1.gds + Mn3.gds);  % DC gain 1st stage
-AvDC2 = Mn6.gm/(Mn6.gds + Mp5.gds);  % DC gain 2nd stage
+
 C1    = Mn3.cgs + Mn3.cgb + Mp1.cgd + Mp1.cdb + Mn4.cgs;  % Capacitance on node 1
 G1    = Mn3.gm + Mp1.gds;  % Admittance  on node 1
-C2    = spec.Cm;  % Capacitance on node 2
+C2    = spec.Cm*(1+AvDC2); %miller % Capacitance on node 2
 G2    = Mn4.gds + Mp2.gds;  % Admittance  on node 2
 C3    = spec.Cl;  % Capacitance on node 3
 G3    = Mn6.gm ;  % Admittance  on node 3
-C4    = spec.Cm;  % Capacitance on node 4
-G4    = 1/spec.Rm;  % Admittance on node 4 (hint: what happens with CL at very high frequencies?)
+C4    = spec.Cl;  % Capacitance on node 4
+G4    = spec.Rm;  % Admittance on node 4 (hint: what happens with CL at very high frequencies?)
 
 G1/C1
 G2/C2

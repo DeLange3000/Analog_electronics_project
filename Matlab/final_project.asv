@@ -133,8 +133,8 @@ Mp5.ids = Mn6.ids
 Mp5.lg = 120*10^-9
 Mp5.vsb = 0;
 Mp5.vds = -0.550
-Mp5.vgs = -0.550
-Mp5.w = Mp8.w*Mp5.ids/Ibias
+Mp5.vgs = -0.540
+Mp5.w = mosWidth('ids', Mp5.ids, Mp5);
 Mp5 = mosNfingers(Mp5);
 Mp5 = mosOpValues(Mp5);
 
@@ -150,9 +150,9 @@ Mp7 = mosOpValues(Mp7);
 
 %% AI: Set-up Rm, Cc and CL and calculate the zero required for the transfer-fct
 
-spec.Cm = (Mn4.gds + Mp2.gds)/GBW*11.75;
+spec.Cm = (Mn4.gds + Mp2.gds)/GBW*1000;
 spec.Cl = 5*10^-12;
-spec.Rm = 1/(Mn4.gds + Mp2.gds)/11.75; 
+spec.Rm = 1/(Mn4.gds + Mp2.gds); 
 z1 = (Mp5.gm + 1/spec.Rm)/spec.Cm;
 
 %% AI: Fill out the empty variables required to plot the transfer-function.
